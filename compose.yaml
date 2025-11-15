@@ -1,10 +1,11 @@
 services:
   mysql:
+    container_name: db_teste_serasa
     image: 'mysql:latest'
     environment:
-      - 'MYSQL_DATABASE=mydatabase'
+      - 'MYSQL_DATABASE=db_teste_serasa'
       - 'MYSQL_PASSWORD=secret'
       - 'MYSQL_ROOT_PASSWORD=verysecret'
-      - 'MYSQL_USER=myuser'
+      - 'MYSQL_USER=serasadb'
     ports:
-      - '3306'
+      - '3306:3306'
