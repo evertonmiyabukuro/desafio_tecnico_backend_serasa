@@ -1,10 +1,12 @@
-package com.serasa.DesafioTecnicoBackend;
+package com.serasa.DesafioTecnicoBackEnd;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 
+@Import(TestcontainersConfiguration.class)
 @SpringBootTest
-class DesafioTecnicoBackendApplicationTests {
+class DesafioTecnicoBackEndApplicationTests {
 
 	@Test
 	void contextLoads() {
