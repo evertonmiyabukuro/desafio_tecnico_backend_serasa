@@ -531,6 +531,16 @@
 				{
 					"name": "PesagemSemId",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "e5f7f3d6-4bcd-11ee-be56-0242ac120002",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -592,7 +602,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"grao\": {\r\n    \"id\": 3\r\n  },\r\n  \"caminhao\": {\r\n    \"placa\": \"aes5a09\"\r\n  },\r\n  \"volume_Comprado\": 1000,\r\n  \"data_Hora_Saida\": \"2025-11-16T03:57:24.932Z\"\r\n}",
+							"raw": "{\r\n  \"grao\": {\r\n    \"id\": 3\r\n  },\r\n  \"caminhao\": {\r\n    \"placa\": \"aes5a09\"\r\n  },\r\n  \"volumeComprado\": 1000,\r\n  \"dataHoraSaida\": \"2025-11-16T03:57:24.932Z\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -619,7 +629,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"grao\": {\r\n    \"id\": 3\r\n  },\r\n  \"caminhao\": {\r\n    \"placa\": \"aes5a09\"\r\n  },\r\n  \"volume_Comprado\": 1000,\r\n  \"data_Hora_Saida\": \"2025-11-16T03:57:24.932Z\"\r\n}",
+							"raw": "{\r\n  \"grao\": {\r\n    \"id\": 3\r\n  },\r\n  \"caminhao\": {\r\n    \"placa\": \"aes5a09\"\r\n  }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -772,7 +782,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"grao\": {\r\n    \"id\": 3\r\n  },\r\n  \"caminhao\": {\r\n    \"placa\": \"DDD4001\"\r\n  },\r\n  \"volume_Comprado\": 12504,\r\n  \"data_Hora_Saida\": \"2025-11-16T16:57:24.932Z\"\r\n}",
+							"raw": "{\r\n  \"grao\": {\r\n    \"id\": 4\r\n  },\r\n  \"caminhao\": {\r\n    \"placa\": \"DDD4001\"\r\n  },\r\n  \"volumeComprado\": 12504,\r\n  \"dataHoraSaida\": \"2025-11-16T16:57:24.932Z\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -881,11 +891,21 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "e5f7f3d6-4bcd-11ee-be56-0242ac120002",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n \"idBalanca\": 6,\r\n \"plate\": \"DDD4001\",\r\n \"weight\": {{pesoBaseTeste}}\r\n}",
+							"raw": "{\r\n \"idBalanca\": 25,\r\n \"plate\": \"DDD4001\",\r\n \"weight\": {{pesoBaseTeste}}\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
