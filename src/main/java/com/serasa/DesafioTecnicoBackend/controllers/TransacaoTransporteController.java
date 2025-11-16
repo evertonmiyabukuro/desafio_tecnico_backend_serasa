@@ -78,7 +78,7 @@ public class TransacaoTransporteController {
         pesagem.setData_hora_pesagem(LocalDateTime.now());
         pesagem.setBalanca(balancaOndeFoiPesado);
         pesagem.setTipoGrao(transacaoTransporteAAtualizar.getGrao());
-        pesagem.setCusto_carga(transacaoTransporteAAtualizar.getGrao().getCustoPorTonelada() * pesagem.getPeso_liquido());
+        pesagem.setCusto_carga(transacaoTransporteAAtualizar.getGrao().getCustoPorTonelada() * (pesagem.getPeso_liquido()/1000));
 
         pesagensRepository.save(pesagem);
 
