@@ -2,10 +2,11 @@ package com.serasa.DesafioTecnicoBackEnd.services;
 
 import com.serasa.DesafioTecnicoBackEnd.models.PesagemDTO;
 import com.serasa.DesafioTecnicoBackEnd.models.ResultadoPesagemDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
@@ -15,7 +16,10 @@ public class FilaPesagensEmMemoriaService {
     private static final long TTL_MILLIS = 5 * 60 * 1000L; //Manter o registro em memória por no máximo 5 minutos
     private static final int MAX_PER_ID = 10; //Manter no máximo 10 leituras em memória por balança e caminhão
 
-    private final ConcurrentHashMap<String, Registro> listaPesagens = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Registro> listaDadosPesagens = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, String> listaPesagens = new ConcurrentHashMap<>();
+
+    private static final Logger logger = LoggerFactory.getLogger(FilaPesagensEmMemoriaService.class);
 
     /*
      Identifica se o objeto de passesagem retornado pelo ESP32 está válido.
@@ -28,7 +32,7 @@ public class FilaPesagensEmMemoriaService {
             return true;
         }
 
-        return listaPesagens.containsKey(objetoPesagem.getPesagemId());
+        return listaDadosPesagens.containsKey(objetoPesagem.getPesagemId());
     }
 
     /*
@@ -43,48 +47,43 @@ public class FilaPesagensEmMemoriaService {
     public void adicionarRegistroPesagem(PesagemDTO objetoPesagem) {
         long now = System.currentTimeMillis();
 
-        //Criação ou localização da ID de leitura por placa+id Balança
-        if(objetoPesagem.getPesagemId() == null){
-            String uuidExistente = listaPesagens.entrySet()
-                    .stream()
-                    .filter(e -> {
-                        Registro registro = e.getValue();
-                        registro.lock.lock();
-                        try {
-                            return registro.deque.stream().anyMatch(p ->
-                                    Objects.equals(p.getPlate(), objetoPesagem.getPlate()) &&
-                                            Objects.equals(p.getIdBalanca(), objetoPesagem.getIdBalanca())
-                            );
-                        } finally {
-                            registro.lock.unlock();
-                        }
-                    })
-                    .map(Map.Entry::getKey)
-                    .findFirst()
-                    .orElse(null);
 
-            if (uuidExistente != null) {
-                objetoPesagem.setPesagemId(uuidExistente);
-            } else {
-                objetoPesagem.setPesagemId(UUID.randomUUID().toString());
-            }
+
+        //Criação ou localização da ID de leitura por placa+id Balança
+        if (objetoPesagem.getPesagemId() == null) {
+            String key = objetoPesagem.getPlate() + "-" + objetoPesagem.getIdBalanca();
+
+            logger.info("Registro de pesagem não veio com a chave informada, verificando se já há registro de balança ativo...");
+
+            String uuid = listaPesagens.computeIfAbsent(key, k -> {
+                String novoId = UUID.randomUUID().toString();
+                logger.info("Chave inexistente, gerando nova chave");
+                return novoId;
+            });
+            objetoPesagem.setPesagemId(uuid);
+
+            logger.info("Chave: {}", uuid);
         }
 
-        Registro registroNaFila = listaPesagens.computeIfAbsent(objetoPesagem.getPesagemId(), k -> new Registro());
+        Registro registroNaFila = listaDadosPesagens.computeIfAbsent(objetoPesagem.getPesagemId(), k -> new Registro());
 
         registroNaFila.lock.lock();
         try {
             long horaAtual = now;
 
             //Se o tempo desde a última atualização para essa balança foi menor que 100ms, ignora essa leitura.
-            if((horaAtual - registroNaFila.lastAccess)<100){
+            if(Math.abs(horaAtual - registroNaFila.lastAccess)<1000){
+                logger.info("Não inserindo leitura, pois a requisição foi feita a menos de 100ms");
                 return;
             }
 
             if (registroNaFila.deque.size() >= MAX_PER_ID) {
+                logger.info("Atingiu máximo de registros, removendo o registro mais antigo...");
                 registroNaFila.deque.removeFirst();
             }
+            logger.info("Inserindo o registro na fila...");
             registroNaFila.deque.addLast(objetoPesagem);
+            logger.info("Contagem atual: {}", registroNaFila.deque.size());
             registroNaFila.lastAccess = now;
         } finally {
             registroNaFila.lock.unlock();
@@ -100,17 +99,19 @@ public class FilaPesagensEmMemoriaService {
      - Caso tenha, verifica a mediana  das últimas leituras
      - Para retorar, a leituras máximas e mínimas devem estar a no máximo 5% de diferença uma
        da outra. E a diferença entre as leituras e a mediana deve estar a no máximo 2,5%.
-     - Caso obedeça a esses critérios, remove o registro da lista em memória e  retorna a
-       última leitura.
+     - Caso obedeça a esses critérios, remove o registro da lista em memória (tanto de pesagens
+       quanto de IDs) e retorna a última leitura.
      */
     public ResultadoPesagemDTO extrairRegistroCasoEstavel(String idPesagem){
         List<PesagemDTO> listaPesagem = this.getListaPesagem(idPesagem);
 
         if (listaPesagem == null){
+            logger.info("Chave {} não possui registro de pesagem ativo", idPesagem);
             return null;
         }
 
         if (listaPesagem.size() < 10) {
+            logger.info("Chave {} não tem registro de pesagem com pelo menos 1s de amostragem", idPesagem);
             return null;
         }
 
@@ -124,6 +125,7 @@ public class FilaPesagensEmMemoriaService {
         float median = (max + min) / 2f;
 
         if (max/min > 1.05f) {
+            logger.info("Variação da balança para a pesagem {} está acima do tolerado (5% entre o máximo ({}) e mínimo ({})).", idPesagem, max, min);
             return null;
         }
 
@@ -131,14 +133,21 @@ public class FilaPesagensEmMemoriaService {
 
         for (float w : weights) {
             if (Math.abs(w - median) > maxAllowedDiff) {
+                logger.info("Um dos registros de pesagem {} está acima do tolerado (2,5% da mediana {}: tolerado {}, encontrado {})).", idPesagem, median, maxAllowedDiff, Math.abs(w - median));
                 return null;
             }
         }
 
-        Registro registroNaFila = listaPesagens.get(idPesagem);
-        listaPesagens.remove(idPesagem,registroNaFila);
-
         PesagemDTO registroASerConsiderado = listaPesagem.get(listaPesagem.size() - 1);
+
+        Registro registroNaFila = listaDadosPesagens.get(idPesagem);
+        logger.info("Removendo dados de pesagem e retornando último resultado de pesagem {}, pois está estável", idPesagem);
+        listaDadosPesagens.remove(idPesagem,registroNaFila);
+
+        String idPesagemEmMemoria = listaPesagens.get(idPesagem);
+        logger.info("Removendo ID {} para placa e balança {} + {}", idPesagem, registroASerConsiderado.getPlate(), registroASerConsiderado.getIdBalanca());
+        listaPesagens.remove(idPesagem,idPesagemEmMemoria);
+
         return new ResultadoPesagemDTO(registroASerConsiderado.getWeight(), registroASerConsiderado.getPlate(), registroASerConsiderado.getIdBalanca());
     }
 
@@ -146,7 +155,7 @@ public class FilaPesagensEmMemoriaService {
      Retorna um snapshot das leituras para determinado ID de pesagem
      */
     private List<PesagemDTO> getListaPesagem(String idPesagem) {
-        Registro registro = listaPesagens.get(idPesagem);
+        Registro registro = listaDadosPesagens.get(idPesagem);
         if (registro == null) return null;
 
         registro.lock.lock();
@@ -166,11 +175,11 @@ public class FilaPesagensEmMemoriaService {
     @Scheduled(fixedRateString = "60000")
     public void removerRegistrosExpirados() {
         long now = System.currentTimeMillis();
-        for (Map.Entry<String, Registro> atual : listaPesagens.entrySet()) {
+        for (Map.Entry<String, Registro> atual : listaDadosPesagens.entrySet()) {
             Registro registro = atual.getValue();
 
             if (now - registro.lastAccess > TTL_MILLIS) {
-                listaPesagens.remove(atual.getKey(), registro);
+                listaDadosPesagens.remove(atual.getKey(), registro);
             }
         }
     }
@@ -178,6 +187,6 @@ public class FilaPesagensEmMemoriaService {
     private static class Registro {
         final ReentrantLock lock = new ReentrantLock();
         final Deque<PesagemDTO> deque = new ArrayDeque<>(MAX_PER_ID);
-        volatile long lastAccess = System.currentTimeMillis();
+        volatile long lastAccess = 0;
     }
 }
