@@ -1,5 +1,7 @@
 package com.serasa.DesafioTecnicoBackEnd.utils;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,6 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
+@OpenAPIDefinition
+@Hidden
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResponseStatusException.class)
