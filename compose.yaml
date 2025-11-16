@@ -9,3 +9,18 @@ services:
       - 'MYSQL_USER=serasadb'
     ports:
       - '3306:3306'
+
+  desafio_tecnico_serasa:
+    container_name: desafio_tecnico_serasa
+    build:
+      context: .
+      dockerfile: src/docker/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/db_teste_serasa
+      SPRING_DATASOURCE_USERNAME: serasadb
+      SPRING_DATASOURCE_PASSWORD: secret
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
