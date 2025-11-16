@@ -9,9 +9,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "caminhao")
-public class CaminhaoModel {
+@Table(name = "balanca")
+public class BalancaModel {
     @Id
-    private String Placa;
-    private float Tara;
+    private int Id;
 }

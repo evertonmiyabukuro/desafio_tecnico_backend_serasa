@@ -1,9 +1,7 @@
-package com.serasa.DesafioTecnicoBackEnd;
+package com.serasa.DesafioTecnicoBackEnd.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.serasa.DesafioTecnicoBackEnd.CaminhaoModel;
-
-public interface CaminhaoRepository extends CrudRepository<com.serasa.DesafioTecnicoBackEnd.CaminhaoModel, String> {
+public interface CaminhaoRepository extends CrudRepository<com.serasa.DesafioTecnicoBackEnd.models.CaminhaoModel, String> {
 
 }

@@ -1,4 +1,4 @@
-package com.serasa.DesafioTecnicoBackEnd;
+package com.serasa.DesafioTecnicoBackEnd.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import com.serasa.DesafioTecnicoBackEnd.models.CaminhaoModel;
+import com.serasa.DesafioTecnicoBackEnd.repository.CaminhaoRepository;
 
 @Controller
 @RequestMapping(path="/cadastros/Caminhao")
