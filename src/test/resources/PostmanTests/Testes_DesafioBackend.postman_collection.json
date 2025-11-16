@@ -1,0 +1,956 @@
+{
+	"info": {
+		"_postman_id": "17218a88-5ddb-4ad5-aea4-43880e592928",
+		"name": "Testes_DesafioBackend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5435793"
+	},
+	"item": [
+		{
+			"name": "Filial",
+			"item": [
+				{
+					"name": "Cadastrar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"nome\":\"Novas\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/cadastros/Filial",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cadastros",
+								"Filial"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":1,\"nome\":\"Filial nova\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/cadastros/Filial/2",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cadastros",
+								"Filial",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":1,\"nome\":\"Filial nova\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/cadastros/Filial/2",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cadastros",
+								"Filial",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BuscarTodas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/cadastros/Filial",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cadastros",
+								"Filial"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar_Especifica",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/cadastros/Filial/2",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cadastros",
+								"Filial",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Balanca",
+			"item": [
+				{
+					"name": "Cadastrar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"filial\": {\r\n            \"id\": 5\r\n        }\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/cadastros/Balanca",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cadastros",
+								"Balanca"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"filial\": {\r\n            \"id\": 4\r\n        }\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/cadastros/Balanca/2",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cadastros",
+								"Balanca",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BuscarTodas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/cadastros/Balanca",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cadastros",
+								"Balanca"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BuscarEspecifica",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/cadastros/Balanca/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cadastros",
+								"Balanca",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/cadastros/Balanca/3",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cadastros",
+								"Balanca",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Caminhao",
+			"item": [
+				{
+					"name": "BuscarTodos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/cadastros/Caminhao",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cadastros",
+								"Caminhao"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BuscarEspecifico",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/cadastros/Caminhao/aes5a09",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cadastros",
+								"Caminhao",
+								"aes5a09"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"placa\":\"aes5a09\",\"tara\":5000}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/cadastros/Caminhao",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cadastros",
+								"Caminhao"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"tara\":6000}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/cadastros/Caminhao/aes5a09",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cadastros",
+								"Caminhao",
+								"aes5a09"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"tara\":6000}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/cadastros/Caminhao/aes5a09",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cadastros",
+								"Caminhao",
+								"aes5a09"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TipoGrao",
+			"item": [
+				{
+					"name": "BuscarTodos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/cadastros/TipoGrao",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cadastros",
+								"TipoGrao"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BuscarEspecifico",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/cadastros/TipoGrao/3",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cadastros",
+								"TipoGrao",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cadastrar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"nome\":\"Trigo\",\"custoPorTonelada\":3000}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/cadastros/TipoGrao",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cadastros",
+								"TipoGrao"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"nome\":\"Soja\",\"custoPorTonelada\":700}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/cadastros/TipoGrao/3",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cadastros",
+								"TipoGrao",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AtualizarSoPreco",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"custoPorTonelada\":7050}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/cadastros/TipoGrao/4",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cadastros",
+								"TipoGrao",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"tara\":6000}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/cadastros/TipoGrao/2",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"cadastros",
+								"TipoGrao",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pesagens",
+			"item": [
+				{
+					"name": "PesagemSemId",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"idBalanca\": 1,\r\n \"plate\": \"aes5a29\",\r\n \"weight\": 800043\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/pesagens",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"pesagens"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PesagemComID",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"idBalanca\": 1,\r\n \"plate\": \"aes5a09\",\r\n \"weight\": 8042,\r\n \"pesagemId\": \"2d6f0d0f-9c59-4254-9e08-d0f263dc5570\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/pesagens",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"pesagens"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TransacaoTransporte",
+			"item": [
+				{
+					"name": "Abrir",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"grao\": {\r\n    \"id\": 3\r\n  },\r\n  \"caminhao\": {\r\n    \"placa\": \"aes5a09\"\r\n  },\r\n  \"volume_Comprado\": 1000,\r\n  \"data_Hora_Saida\": \"2025-11-16T03:57:24.932Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/TransacaoTransporte/abrir",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"TransacaoTransporte",
+								"abrir"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Finalizar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"grao\": {\r\n    \"id\": 3\r\n  },\r\n  \"caminhao\": {\r\n    \"placa\": \"aes5a09\"\r\n  },\r\n  \"volume_Comprado\": 1000,\r\n  \"data_Hora_Saida\": \"2025-11-16T03:57:24.932Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/TransacaoTransporte/finalizar/1/2d6f0d0f-9c59-4254-9e08-d0f263dc5570",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"TransacaoTransporte",
+								"finalizar",
+								"1",
+								"2d6f0d0f-9c59-4254-9e08-d0f263dc5570"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Relatórios",
+			"item": [
+				{
+					"name": "Pesagens",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"idFilial\":2,\r\n\"placa\": \"BBB2005\",\r\n\"idTipoGrao\": 5,\r\n\"periodoInicial\": \"2025-11-15T00:00:00.000\",\r\n\"periodoFinal\": \"2025-11-18T00:00:00.000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/relatorios/pesagens",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"relatorios",
+								"pesagens"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Custos de compra",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"idFilial\":2,\r\n\"placa\": \"BBB2005\",\r\n\"idTipoGrao\": 5,\r\n\"periodoInicial\": \"2025-11-15T00:00:00.000\",\r\n\"periodoFinal\": \"2025-11-18T00:00:00.000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/relatorios/custos",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"relatorios",
+								"custos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lucros Possíveis",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"idFilial\":2,\r\n\"placa\": \"BBB2005\",\r\n\"idTipoGrao\": 5,\r\n\"periodoInicial\": \"2020-11-15T00:00:00.000\",\r\n\"periodoFinal\": \"2025-11-18T00:00:00.000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/relatorios/lucrosPossiveis",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"relatorios",
+								"lucrosPossiveis"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TestePesagem",
+			"item": [
+				{
+					"name": "Iniciar transação de transporte",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"try {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    let transacaoId = null;\r",
+									"\r",
+									"    if (jsonData.idTransacaoTransporte) {\r",
+									"        transacaoId = jsonData.idTransacaoTransporte;\r",
+									"    } \r",
+									"\r",
+									"    // Set the collection variable if ID was found\r",
+									"    if (transacaoId !== null && transacaoId !== undefined) {\r",
+									"        pm.collectionVariables.set(\"transacaoTransporteId\", transacaoId);\r",
+									"        console.log(\"Localizou o ID de transação: \" + transacaoId);\r",
+									"    } else {\r",
+									"        console.warn(\"Não foi possível retornar um ID de transação. Response structure: \" + JSON.stringify(jsonData));\r",
+									"    }\r",
+									"\r",
+									"} catch (error) {\r",
+									"    console.error(\"Erro ao tentar extrair o ID de transação: \" + error.message);\r",
+									"}\r",
+									"\r",
+									"pm.collectionVariables.set(\"variacaoAtual\", null);"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"grao\": {\r\n    \"id\": 3\r\n  },\r\n  \"caminhao\": {\r\n    \"placa\": \"DDD4001\"\r\n  },\r\n  \"volume_Comprado\": 12504,\r\n  \"data_Hora_Saida\": \"2025-11-16T16:57:24.932Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/TransacaoTransporte/abrir",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"TransacaoTransporte",
+								"abrir"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequisicaoInicialPesagem",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"try {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    let pesagemId = null;\r",
+									"\r",
+									"    if (jsonData.idPesagem) {\r",
+									"        pesagemId = jsonData.idPesagem;\r",
+									"    } \r",
+									"\r",
+									"    // Set the collection variable if ID was found\r",
+									"    if (pesagemId !== null && pesagemId !== undefined) {\r",
+									"        pm.collectionVariables.set(\"pesagemId\", pesagemId);\r",
+									"        console.log(\"Localizou o ID de pesagem: \" + pesagemId);\r",
+									"    } else {\r",
+									"        console.warn(\"Não foi possível retornar um ID de pesagem. Response structure: \" + JSON.stringify(jsonData));\r",
+									"    }\r",
+									"\r",
+									"} catch (error) {\r",
+									"    console.error(\"Erro ao tentar extrair o ID de pesagem: \" + error.message);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let base = 22400;\r",
+									"console.log(\"=== Simulação de Balança ===\");\r",
+									"\r",
+									"// Carrega a variação atual ou inicia com 4%\r",
+									"let variacaoAtual = pm.collectionVariables.get(\"variacaoAtual\");\r",
+									"if (variacaoAtual === undefined || variacaoAtual === null) {\r",
+									"    variacaoAtual = base * 0.04;  // 4% inicial\r",
+									"    console.log(\"Inicializando variação em 4%:\", variacaoAtual);\r",
+									"} else {\r",
+									"    variacaoAtual = parseFloat(variacaoAtual);\r",
+									"    console.log(\"Variação atual carregada:\", variacaoAtual);\r",
+									"}\r",
+									"\r",
+									"// Log do range de peso possível\r",
+									"console.log(\"Faixa de peso possível nesta leitura:\", \r",
+									"            (base - variacaoAtual).toFixed(2), \"até\", (base + variacaoAtual).toFixed(2));\r",
+									"\r",
+									"// Gera variação aleatória entre -variacaoAtual e +variacaoAtual\r",
+									"let variacaoAleatoria = (Math.random() * (variacaoAtual * 2)) - variacaoAtual;\r",
+									"console.log(\"Variação aleatória aplicada:\", variacaoAleatoria.toFixed(2));\r",
+									"\r",
+									"// Peso final\r",
+									"let pesoFinal = Math.round(base + variacaoAleatoria);\r",
+									"console.log(\"Peso final gerado:\", pesoFinal);\r",
+									"\r",
+									"// Salva o valor para uso no body\r",
+									"pm.variables.set(\"pesoBaseTeste\", pesoFinal);\r",
+									"\r",
+									"// ---- APLICA O DECAIMENTO ----\r",
+									"let fatorDecaimento = 0.95; \r",
+									"console.log(\"Fator de decaimento aplicado:\", fatorDecaimento);\r",
+									"\r",
+									"let novaVariacao = variacaoAtual * fatorDecaimento;\r",
+									"console.log(\"Nova variação calculada:\", novaVariacao);\r",
+									"\r",
+									"// Evita que a variação chegue a zero (mantém pequenas oscilações realistas)\r",
+									"if (novaVariacao < 1) {\r",
+									"    console.log(\"Variação atingiu limite mínimo, ajustando para 1.\");\r",
+									"    novaVariacao = 1;\r",
+									"}\r",
+									"\r",
+									"pm.collectionVariables.set(\"variacaoAtual\", novaVariacao);\r",
+									"\r",
+									"console.log(\"Variação armazenada para próxima leitura:\", novaVariacao);\r",
+									"console.log(\"=== Fim da leitura ===\\n\");"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"idBalanca\": 6,\r\n \"plate\": \"DDD4001\",\r\n \"weight\": {{pesoBaseTeste}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/pesagens",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"pesagens"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": ""
+		},
+		{
+			"key": "transacaoTransporteId",
+			"value": ""
+		},
+		{
+			"key": "pesagemId",
+			"value": ""
+		},
+		{
+			"key": "pesoBaseTeste",
+			"value": ""
+		},
+		{
+			"key": "variacaoAtual",
+			"value": ""
+		}
+	]
+}
