@@ -32,16 +32,48 @@ public class CaminhaoController {
 
     @Operation(summary = "Insere um caminhão", description = "Insere um caminhão com os dados informados no corpo")
     @ApiResponse(responseCode = "200", description = "Inserção efetuada com sucesso")
+    @ApiResponse(responseCode = "412", description = "A placa informada não segue o padrão do modelo Mercosul ou a tara é inválida (<= 0)")
     @PostMapping
-    public CaminhaoModel inserir(@RequestBody CaminhaoModel caminhao){
+    public CaminhaoModel inserir(@RequestBody CaminhaoModel caminhao) {
+        if (caminhao.getPlaca() == null || !caminhao.getPlaca().matches("(?i)^[A-Z]{3}[0-9][A-Z][0-9]{2}$")) {
+            throw new ResponseStatusException(
+                    HttpStatus.PRECONDITION_FAILED,
+                    "A placa informada não segue o padrão do modelo Mercosul"
+            );
+        }
+
+        if (caminhao.getTara() == null || caminhao.getTara() <= 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.PRECONDITION_FAILED,
+                    "A tara informada deve ser maior que zero"
+            );
+        }
+
+        caminhao.setPlaca(caminhao.getPlaca().toUpperCase());
+
         return caminhaoRepository.save(caminhao);
     }
 
     @Operation(summary = "Atualizar um caminhão", description = "Atualiza um caminhão já existente com os dados informados no corpo")
     @ApiResponse(responseCode = "200", description = "Atualização efetuada com sucesso")
     @ApiResponse(responseCode = "404", description = "Caminhão com a placa solicitada não encontrado")
+    @ApiResponse(responseCode = "412", description = "A placa informada não segue o padrão do modelo Mercosul ou a tara é inválida (<= 0)")
     @PutMapping("/{placa}")
     public CaminhaoModel atualizarDados(@PathVariable String placa, @RequestBody CaminhaoModel caminhao){
+        if (placa == null || !placa.matches("(?i)^[A-Z]{3}[0-9][A-Z][0-9]{2}$")) {
+            throw new ResponseStatusException(
+                    HttpStatus.PRECONDITION_FAILED,
+                    "A placa informada não segue o padrão do modelo Mercosul"
+            );
+        }
+
+        if (caminhao.getTara() == null || caminhao.getTara() <= 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.PRECONDITION_FAILED,
+                    "A tara informada deve ser maior que zero"
+            );
+        }
+
         CaminhaoModel caminhaoNoSistema = caminhaoRepository.findById(placa).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "A placa informada para atualização não foi localizada"));
 
         caminhaoNoSistema.setTara( caminhao.getTara());
@@ -50,9 +82,12 @@ public class CaminhaoController {
 
     @Operation(summary = "Excluir um caminhão", description = "Exclui o caminhão de placa informada no sistema")
     @ApiResponse(responseCode = "200", description = "Exclusão efetuada com sucesso")
+    @ApiResponse(responseCode = "404", description = "Caminhão com a placa solicitada não encontrado")
     @DeleteMapping("/{placa}")
     public void delete(@PathVariable String placa) {
-        caminhaoRepository.deleteById(placa);
+        CaminhaoModel caminhaoNoSistema = caminhaoRepository.findById(placa).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "A placa informada para exclusão não foi localizada"));
+
+        caminhaoRepository.delete(caminhaoNoSistema);
     }
 
 }

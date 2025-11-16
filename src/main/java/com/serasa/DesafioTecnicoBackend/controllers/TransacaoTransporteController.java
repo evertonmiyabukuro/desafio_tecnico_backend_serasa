@@ -42,7 +42,7 @@ public class TransacaoTransporteController {
     @ApiResponse(responseCode = "200", description = "Transação de transporte iniciada. É retornado o ID da mesma.")
     @ApiResponse(responseCode = "412", description = "O caminhão ou tipo de grão informado para a transação de transporte não está cadastrado no sistema.")
     @PostMapping(path="/abrir")
-    public Integer abrirTransacaoTransporte(@RequestBody TransacaoTransporteModel transacaoTransporte){
+    public TransacaoTransporteRespostaDTO abrirTransacaoTransporte(@RequestBody TransacaoTransporteModel transacaoTransporte){
         CaminhaoModel caminhaoEncontrado = caminhaoRepository.findById(transacaoTransporte.getCaminhao().getPlaca()).orElseThrow(() -> new ResponseStatusException(HttpStatus.PRECONDITION_FAILED, "Caminhão não encontrado"));
         TipoGraoModel tipoGraoEncontrado = tipoGraoRepository.findById(transacaoTransporte.getGrao().getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.PRECONDITION_FAILED, "Tipo do grão não encontrado"));
 
@@ -50,7 +50,8 @@ public class TransacaoTransporteController {
         transacaoTransporte.setGrao(tipoGraoEncontrado);
         transacaoTransporte.setPesagem(null);
 
-        return transacaoTransporteRepository.save(transacaoTransporte).getId();
+        Integer idGerado = transacaoTransporteRepository.save(transacaoTransporte).getId();
+        return new TransacaoTransporteRespostaDTO(idGerado);
     }
 
     @Operation(summary = "Finaliza uma transação de transporte", description = "Finaliza uma transação de transporte com o id e id de pesagem informados")

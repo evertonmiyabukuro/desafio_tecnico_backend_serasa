@@ -61,8 +61,10 @@ public class BalancaController {
 
     @Operation(summary = "Excluir uma balança", description = "Exclui a balança de ID informado no sistema")
     @ApiResponse(responseCode = "200", description = "Exclusão efetuada com sucesso")
+    @ApiResponse(responseCode = "404", description = "Balança com o ID solicitado não encontrada")
     @DeleteMapping("/{idBalanca}")
     public void delete(@PathVariable int idBalanca) {
-        balancaRepository.deleteById(idBalanca);
+        BalancaModel balancaNoSistema = balancaRepository.findById(idBalanca).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "A balança informada para exclusão não foi localizada"));
+        balancaRepository.delete(balancaNoSistema);
     }
 }
