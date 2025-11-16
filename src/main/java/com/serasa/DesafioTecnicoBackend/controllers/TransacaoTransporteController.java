@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import com.serasa.DesafioTecnicoBackEnd.repository.TransacaoTransporteRepository;
-import com.serasa.DesafioTecnicoBackEnd.repository.repository.PesagensRepository;
+import com.serasa.DesafioTecnicoBackEnd.repository.PesagensRepository;
 
 import java.time.LocalDateTime;
 
