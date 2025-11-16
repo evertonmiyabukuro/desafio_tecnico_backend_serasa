@@ -59,17 +59,17 @@ public class TipoGraoController {
     @ApiResponse(responseCode = "412", description = "O nome (mínimo 3 caracteres) e o custo por tonelada devem ser preenchidos.")
     @PutMapping("/{idTipoGrao}")
     public TipoGraoModel atualizar(@PathVariable int idTipoGrao, @RequestBody TipoGraoModel tipoGrao) {
-        if (tipoGrao.getNome() == null || tipoGrao.getNome().trim().length() < 3) {
+        if (tipoGrao.getNome() != null && tipoGrao.getNome().trim().length() < 3) {
             throw new ResponseStatusException(
                     HttpStatus.PRECONDITION_FAILED,
                     "O nome do tipo de grão deve ser preenchido"
             );
         }
 
-        if (tipoGrao.getCustoPorTonelada() == null) {
+        if (tipoGrao.getCustoPorTonelada() != null && tipoGrao.getCustoPorTonelada() <= 0) {
             throw new ResponseStatusException(
                     HttpStatus.PRECONDITION_FAILED,
-                    "O custo por tonelada deve ser informado"
+                    "O custo por tonelada deve ser informado e maior que zero"
             );
         }
 
