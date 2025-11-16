@@ -1,5 +1,7 @@
 package com.serasa.DesafioTecnicoBackEnd.controllers;
 
+import com.serasa.DesafioTecnicoBackEnd.models.FilialModel;
+import com.serasa.DesafioTecnicoBackEnd.repository.FilialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -9,11 +11,13 @@ import org.springframework.web.server.ResponseStatusException;
 import com.serasa.DesafioTecnicoBackEnd.models.BalancaModel;
 import com.serasa.DesafioTecnicoBackEnd.repository.BalancaRepository;
 
-@Controller
+@RestController
 @RequestMapping(path="/cadastros/Balanca")
 public class BalancaController {
     @Autowired
     private BalancaRepository balancaRepository;
+    @Autowired
+    private FilialRepository filialRepository;
 
     @GetMapping
     public @ResponseBody Iterable<BalancaModel> getTodos() {
@@ -29,15 +33,20 @@ public class BalancaController {
 
     @PostMapping
     public BalancaModel inserir(@RequestBody BalancaModel balanca){
+        FilialModel filial = filialRepository.findById(balanca.getFilial().getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Filial não encontrada"));
+        balanca.setFilial(filial);
+
         return balancaRepository.save(balanca);
     }
 
     @PutMapping("/{id}")
     public BalancaModel atualizarDados(@PathVariable int id, @RequestBody BalancaModel balanca){
-        if(id != balanca.getId()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O id informado para atualização não bate com o requisitado");
-        }
-        return balancaRepository.save(balanca);
+        BalancaModel balancaNoSistema = balancaRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "O id informado para atualização não foi localizado"));
+
+        FilialModel filial = filialRepository.findById(balanca.getFilial().getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Filial não encontrada"));
+        balancaNoSistema.setFilial(filial);
+
+        return balancaRepository.save(balancaNoSistema);
     }
 
     @DeleteMapping("/{id}")

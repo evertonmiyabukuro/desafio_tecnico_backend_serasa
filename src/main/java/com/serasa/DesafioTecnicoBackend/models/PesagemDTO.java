@@ -3,8 +3,8 @@ import lombok.Data;
 
 @Data
 public class PesagemDTO {
-    private int IdBalanca;
+    private Integer IdBalanca;
     private String Plate;
-    private float Weight;
+    private Float Weight;
     private String PesagemId;
 }

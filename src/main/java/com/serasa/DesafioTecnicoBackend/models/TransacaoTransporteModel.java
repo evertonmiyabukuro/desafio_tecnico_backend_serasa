@@ -13,7 +13,8 @@ import java.time.LocalDateTime;
 @Table(name = "transacaotransporte")
 public class TransacaoTransporteModel {
     @Id
-    private int Id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer Id;
 
     @ManyToOne
     @JoinColumn(name="id_grao", nullable = false)
@@ -23,10 +24,11 @@ public class TransacaoTransporteModel {
     @JoinColumn(name="placa_caminhao", nullable = false)
     private CaminhaoModel Caminhao;
 
-    private float Volume_Comprado;
+    private Float Volume_Comprado;
 
-
-    private int Id_Pesagem;
+    @OneToOne
+    @JoinColumn(name = "id_pesagem")
+    private PesagensModel Pesagem;
 
     private LocalDateTime Data_Hora_Saida;
     private LocalDateTime Data_Hora_Retorno;

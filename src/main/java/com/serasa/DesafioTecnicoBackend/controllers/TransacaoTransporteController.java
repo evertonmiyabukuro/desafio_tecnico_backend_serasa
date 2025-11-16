@@ -3,6 +3,7 @@ package com.serasa.DesafioTecnicoBackEnd.controllers;
 import com.serasa.DesafioTecnicoBackEnd.models.*;
 import com.serasa.DesafioTecnicoBackEnd.repository.BalancaRepository;
 import com.serasa.DesafioTecnicoBackEnd.repository.CaminhaoRepository;
+import com.serasa.DesafioTecnicoBackEnd.repository.TipoGraoRepository;
 import com.serasa.DesafioTecnicoBackEnd.services.FilaPesagensEmMemoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,8 +16,8 @@ import com.serasa.DesafioTecnicoBackEnd.repository.repository.PesagensRepository
 
 import java.time.LocalDateTime;
 
-@Controller
-@RequestMapping(path="/cadastros/TransacaoTransporte")
+@RestController
+@RequestMapping(path="/TransacaoTransporte")
 public class TransacaoTransporteController {
 
     @Autowired
@@ -28,6 +29,8 @@ public class TransacaoTransporteController {
     @Autowired
     private CaminhaoRepository caminhaoRepository;
     private final FilaPesagensEmMemoriaService filaPesagensEmMemoriaService;
+    @Autowired
+    private TipoGraoRepository tipoGraoRepository;
 
     public TransacaoTransporteController(FilaPesagensEmMemoriaService filaPesagens) {
         this.filaPesagensEmMemoriaService = filaPesagens;
@@ -35,6 +38,13 @@ public class TransacaoTransporteController {
 
     @PostMapping(path="/abrir")
     public Integer abrirTransacaoTransporte(@RequestBody TransacaoTransporteModel transacaoTransporte){
+        CaminhaoModel caminhaoEncontrado = caminhaoRepository.findById(transacaoTransporte.getCaminhao().getPlaca()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Caminhão não encontrado"));
+        TipoGraoModel tipoGraoEncontrado = tipoGraoRepository.findById(transacaoTransporte.getGrao().getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tipo do grão não encontrado"));
+
+        transacaoTransporte.setCaminhao(caminhaoEncontrado);
+        transacaoTransporte.setGrao(tipoGraoEncontrado);
+        transacaoTransporte.setPesagem(null);
+
         return transacaoTransporteRepository.save(transacaoTransporte).getId();
     }
 
@@ -64,7 +74,7 @@ public class TransacaoTransporteController {
         pesagensRepository.save(pesagem);
 
         transacaoTransporteAAtualizar.setData_Hora_Retorno(LocalDateTime.now());
-        transacaoTransporteAAtualizar.setId_Pesagem(pesagem.getId());
+        transacaoTransporteAAtualizar.setPesagem(pesagem);
 
         return transacaoTransporteRepository.save(transacaoTransporteAAtualizar);
     }

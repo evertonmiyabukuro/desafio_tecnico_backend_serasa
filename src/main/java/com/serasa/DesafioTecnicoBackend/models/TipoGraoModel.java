@@ -1,8 +1,6 @@
 package com.serasa.DesafioTecnicoBackEnd.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +10,8 @@ import lombok.Setter;
 @Table(name = "tipograo")
 public class TipoGraoModel {
     @Id
-    private int Id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer Id;
     private String Nome;
-    private float CustoPorTonelada;
+    private Float CustoPorTonelada;
 }

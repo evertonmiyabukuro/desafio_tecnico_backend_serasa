@@ -1,5 +1,6 @@
 package com.serasa.DesafioTecnicoBackEnd.controllers;
 
+import com.serasa.DesafioTecnicoBackEnd.models.FilialModel;
 import com.serasa.DesafioTecnicoBackEnd.repository.TipoGraoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,7 @@ import com.serasa.DesafioTecnicoBackEnd.repository.TipoGraoRepository;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping(path="/cadastros/TipoGrao")
 public class TipoGraoController {
     @Autowired
@@ -35,10 +36,17 @@ public class TipoGraoController {
 
     @PutMapping("/{id}")
     public TipoGraoModel atualizar(@PathVariable int id, @RequestBody TipoGraoModel tipoGrao) {
-        if(id != tipoGrao.getId()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O id informado para atualização não bate com o requisitado");
+        TipoGraoModel tipoGraoNoSistema = tipoGraoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "O id informado para atualização não foi localizado"));
+
+        if(tipoGrao.getNome()!=null) {
+            tipoGraoNoSistema.setNome(tipoGrao.getNome());
         }
-        return tipoGraoRepository.save(tipoGrao);
+        if(tipoGrao.getCustoPorTonelada()!=null) {
+            tipoGraoNoSistema.setCustoPorTonelada(tipoGrao.getCustoPorTonelada());
+        }
+
+
+        return tipoGraoRepository.save(tipoGraoNoSistema);
     }
 
     @DeleteMapping("/{id}")

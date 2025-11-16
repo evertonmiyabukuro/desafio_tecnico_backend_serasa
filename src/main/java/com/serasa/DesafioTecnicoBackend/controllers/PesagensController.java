@@ -15,7 +15,7 @@ import com.serasa.DesafioTecnicoBackEnd.repository.repository.PesagensRepository
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Controller
+@RestController
 @RequestMapping(path="/pesagens")
 public class PesagensController {
     @Autowired

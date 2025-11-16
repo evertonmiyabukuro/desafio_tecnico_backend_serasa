@@ -1,8 +1,6 @@
 package com.serasa.DesafioTecnicoBackEnd.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +10,9 @@ import lombok.Setter;
 @Table(name = "filial")
 public class FilialModel {
     @Id
-    private int Id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer Id;
+    @Column(name = "nome")
     private String Nome;
 }

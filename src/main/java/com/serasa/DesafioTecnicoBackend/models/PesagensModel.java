@@ -13,16 +13,17 @@ import java.time.LocalDateTime;
 @Table(name = "pesagens")
 public class PesagensModel {
     @Id
-    private int Id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer Id;
 
     @ManyToOne
     @JoinColumn(name="placa", nullable = false)
     private CaminhaoModel Caminhao;
 
-    private float peso_bruto_estabilizado;
-    private float tara;
+    private Float peso_bruto_estabilizado;
+    private Float tara;
 
-    private float peso_liquido;
+    private Float peso_liquido;
     private LocalDateTime data_hora_pesagem;
 
     @ManyToOne
@@ -33,5 +34,5 @@ public class PesagensModel {
     @JoinColumn(name="id_tipo_grao", nullable = false)
     private TipoGraoModel TipoGrao;
 
-    private float Custo_carga;
+    private Float Custo_carga;
 }

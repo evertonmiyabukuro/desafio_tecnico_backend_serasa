@@ -13,5 +13,5 @@ import lombok.Setter;
 public class CaminhaoModel {
     @Id
     private String Placa;
-    private float Tara;
+    private Float Tara;
 }

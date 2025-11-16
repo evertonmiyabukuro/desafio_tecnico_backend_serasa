@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.serasa.DesafioTecnicoBackEnd.models.CaminhaoModel;
 import com.serasa.DesafioTecnicoBackEnd.repository.CaminhaoRepository;
 
-@Controller
+@RestController
 @RequestMapping(path="/cadastros/Caminhao")
 public class CaminhaoController {
     @Autowired
@@ -34,10 +34,10 @@ public class CaminhaoController {
 
     @PutMapping("/{placa}")
     public CaminhaoModel atualizarDados(@PathVariable String placa, @RequestBody CaminhaoModel caminhao){
-        if(placa != caminhao.getPlaca()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A placa informada para atualização não bate com a requisitada");
-        }
-        return caminhaoRepository.save(caminhao);
+        CaminhaoModel caminhaoNoSistema = caminhaoRepository.findById(placa).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "A placa informada para atualização não foi localizada"));
+
+        caminhaoNoSistema.setTara( caminhao.getTara());
+        return caminhaoRepository.save(caminhaoNoSistema);
     }
 
     @DeleteMapping("/{placa}")
