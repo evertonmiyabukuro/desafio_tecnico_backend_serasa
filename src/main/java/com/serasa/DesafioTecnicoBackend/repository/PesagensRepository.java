@@ -1,8 +1,8 @@
 package com.serasa.DesafioTecnicoBackEnd.repository;
 
 import com.serasa.DesafioTecnicoBackEnd.models.PesagensModel;
-import com.serasa.DesafioTecnicoBackEnd.models.RelatorioCustosDTO;
-import com.serasa.DesafioTecnicoBackEnd.models.RelatorioLucrosPossiveisDTO;
+import com.serasa.DesafioTecnicoBackEnd.models.dtos.RelatorioCustosDTO;
+import com.serasa.DesafioTecnicoBackEnd.models.dtos.RelatorioLucrosPossiveisDTO;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

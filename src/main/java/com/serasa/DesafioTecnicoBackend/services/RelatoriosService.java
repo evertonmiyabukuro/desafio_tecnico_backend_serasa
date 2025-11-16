@@ -1,11 +1,10 @@
 package com.serasa.DesafioTecnicoBackEnd.services;
 
 import com.serasa.DesafioTecnicoBackEnd.models.*;
-import com.serasa.DesafioTecnicoBackEnd.repository.FilialRepository;
+import com.serasa.DesafioTecnicoBackEnd.models.dtos.*;
 import com.serasa.DesafioTecnicoBackEnd.repository.PesagensRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.serasa.DesafioTecnicoBackEnd.models;
+package com.serasa.DesafioTecnicoBackEnd.models.dtos;
 
 public interface RelatorioLucrosPossiveisDTO {
 

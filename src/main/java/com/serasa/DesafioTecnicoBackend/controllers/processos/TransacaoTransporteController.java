@@ -1,6 +1,8 @@
-package com.serasa.DesafioTecnicoBackEnd.controllers;
+package com.serasa.DesafioTecnicoBackEnd.controllers.processos;
 
 import com.serasa.DesafioTecnicoBackEnd.models.*;
+import com.serasa.DesafioTecnicoBackEnd.models.dtos.ResultadoPesagemDTO;
+import com.serasa.DesafioTecnicoBackEnd.models.dtos.TransacaoTransporteRespostaDTO;
 import com.serasa.DesafioTecnicoBackEnd.repository.BalancaRepository;
 import com.serasa.DesafioTecnicoBackEnd.repository.CaminhaoRepository;
 import com.serasa.DesafioTecnicoBackEnd.repository.TipoGraoRepository;

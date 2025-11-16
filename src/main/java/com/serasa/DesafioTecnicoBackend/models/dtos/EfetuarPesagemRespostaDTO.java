@@ -1,4 +1,4 @@
-package com.serasa.DesafioTecnicoBackEnd.models;
+package com.serasa.DesafioTecnicoBackEnd.models.dtos;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.serasa.DesafioTecnicoBackEnd.controllers;
+package com.serasa.DesafioTecnicoBackEnd.controllers.cadastros;
 
 import com.serasa.DesafioTecnicoBackEnd.repository.TipoGraoRepository;
 import io.swagger.v3.oas.annotations.Operation;

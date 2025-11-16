@@ -1,7 +1,7 @@
 package com.serasa.DesafioTecnicoBackEnd.services;
 
-import com.serasa.DesafioTecnicoBackEnd.models.PesagemDTO;
-import com.serasa.DesafioTecnicoBackEnd.models.ResultadoPesagemDTO;
+import com.serasa.DesafioTecnicoBackEnd.models.dtos.PesagemDTO;
+import com.serasa.DesafioTecnicoBackEnd.models.dtos.ResultadoPesagemDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;

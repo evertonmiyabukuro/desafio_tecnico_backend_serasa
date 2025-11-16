@@ -1,4 +1,4 @@
-package com.serasa.DesafioTecnicoBackEnd.controllers;
+package com.serasa.DesafioTecnicoBackEnd.controllers.cadastros;
 
 import com.serasa.DesafioTecnicoBackEnd.models.FilialModel;
 import com.serasa.DesafioTecnicoBackEnd.repository.FilialRepository;
