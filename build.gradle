@@ -1,7 +1,17 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.flywaydb:flyway-mysql:11.17.0"
+    }
+}
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.5.7'
 	id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.flywaydb.flyway' version '11.17.0'
 }
 
 group = 'com.serasa'
@@ -38,6 +48,20 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
+    implementation 'org.flywaydb:flyway-core'
+    implementation "org.flywaydb:flyway-mysql"
+}
+
+flyway {
+    url = 'jdbc:mysql://localhost:3306/db_teste_serasa?serverTimezone=UTC'
+    user = 'serasadb'
+    password = 'secret'
+    locations = ['filesystem:src/main/resources/db/migration']
+    baselineOnMigrate = true
+}
+
+tasks.named('bootRun') {
+    dependsOn flywayMigrate
 }
 
 tasks.named('test') {
