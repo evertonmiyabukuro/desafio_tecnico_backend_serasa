@@ -1,32 +1,25 @@
 package com.serasa.DesafioTecnicoBackEnd.controllers;
 
 import com.serasa.DesafioTecnicoBackEnd.models.*;
-import com.serasa.DesafioTecnicoBackEnd.repository.BalancaRepository;
-import com.serasa.DesafioTecnicoBackEnd.repository.CaminhaoRepository;
 import com.serasa.DesafioTecnicoBackEnd.services.FilaPesagensEmMemoriaService;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import com.serasa.DesafioTecnicoBackEnd.repository.repository.PesagensRepository;
-
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @RestController
 @RequestMapping(path="/pesagens")
 public class PesagensController {
-    @Autowired
-    private PesagensRepository pesagensRepository;
-
     private final FilaPesagensEmMemoriaService filaPesagensEmMemoriaService;
 
     public PesagensController(FilaPesagensEmMemoriaService filaPesagens) {
         this.filaPesagensEmMemoriaService = filaPesagens;
     }
 
+    @Operation(summary = "Registrar um peso para uma balança", description = "Registra a informação de peso para determinada balança e placa, com as informações enviadas pelo ESP32.")
+    @ApiResponse(responseCode = "200", description = "Inserção efetuada com sucesso. Retorna o ID da pesagem, utilizado para finalizar a transação de transporte vinculada ao caminhão.")
+    @ApiResponse(responseCode = "404", description = "As informações enviadas pelo ESP32 são inválidas. Foi enviado o objeto com um ID de pesagem expirado.")
     @PostMapping
     public String EfetuarPesagem(@RequestBody PesagemDTO dadosPesagem){
         if(!filaPesagensEmMemoriaService.objetoPesagemValido(dadosPesagem)){
@@ -36,13 +29,5 @@ public class PesagensController {
         filaPesagensEmMemoriaService.adicionarRegistroPesagem(dadosPesagem);
 
         return dadosPesagem.getPesagemId();
-
-        //Validar se já tem uma pesagem rodando para esse caminhão
-        //Se não tiver, gerar um novo UUID e inserir em lista
-
-
-        //Ao final, retornar o id do objeto de pesagem para o cliente incluir nas requisições futuras
-
-//        return UUID.randomUUID();
     }
 }
