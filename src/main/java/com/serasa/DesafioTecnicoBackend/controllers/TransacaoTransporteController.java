@@ -9,14 +9,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import com.serasa.DesafioTecnicoBackEnd.repository.TransacaoTransporteRepository;
 import com.serasa.DesafioTecnicoBackEnd.repository.PesagensRepository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path="/TransacaoTransporte")
@@ -40,18 +40,27 @@ public class TransacaoTransporteController {
 
     @Operation(summary = "Iniciar uma transação de transporte", description = "Inicia uma transação de transporte com as informações informadas")
     @ApiResponse(responseCode = "200", description = "Transação de transporte iniciada. É retornado o ID da mesma.")
+    @ApiResponse(responseCode = "409", description = "Já existe transação de transporte aberta para esse mesmo caminhão e tipo de grão. É retornado o ID da transação já existente.")
     @ApiResponse(responseCode = "412", description = "O caminhão ou tipo de grão informado para a transação de transporte não está cadastrado no sistema.")
     @PostMapping(path="/abrir")
-    public TransacaoTransporteRespostaDTO abrirTransacaoTransporte(@RequestBody TransacaoTransporteModel transacaoTransporte){
+    public ResponseEntity<TransacaoTransporteRespostaDTO> abrirTransacaoTransporte(@RequestBody TransacaoTransporteModel transacaoTransporte){
         CaminhaoModel caminhaoEncontrado = caminhaoRepository.findById(transacaoTransporte.getCaminhao().getPlaca()).orElseThrow(() -> new ResponseStatusException(HttpStatus.PRECONDITION_FAILED, "Caminhão não encontrado"));
         TipoGraoModel tipoGraoEncontrado = tipoGraoRepository.findById(transacaoTransporte.getGrao().getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.PRECONDITION_FAILED, "Tipo do grão não encontrado"));
+
+        Optional<TransacaoTransporteModel> existente = transacaoTransporteRepository.findFirstByCaminhaoPlacaAndGraoIdAndDataHoraRetornoIsNull(
+                                                                                            transacaoTransporte.getCaminhao().getPlaca(),
+                                                                                            transacaoTransporte.getGrao().getId());
+
+        if (existente.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new TransacaoTransporteRespostaDTO(existente.get().getId()));
+        }
 
         transacaoTransporte.setCaminhao(caminhaoEncontrado);
         transacaoTransporte.setGrao(tipoGraoEncontrado);
         transacaoTransporte.setPesagem(null);
 
         Integer idGerado = transacaoTransporteRepository.save(transacaoTransporte).getId();
-        return new TransacaoTransporteRespostaDTO(idGerado);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new TransacaoTransporteRespostaDTO(idGerado));
     }
 
     @Operation(summary = "Finaliza uma transação de transporte", description = "Finaliza uma transação de transporte com o id e id de pesagem informados")
@@ -73,17 +82,17 @@ public class TransacaoTransporteController {
         PesagensModel pesagem = new PesagensModel();
 
         pesagem.setCaminhao(caminhaoDaPesagem);
-        pesagem.setPeso_bruto_estabilizado(resultadoPesagem.pesoRegistrado());
+        pesagem.setPesoBrutoEstabilizado(resultadoPesagem.pesoRegistrado());
         pesagem.setTara(caminhaoDaPesagem.getTara());
-        pesagem.setPeso_liquido(resultadoPesagem.pesoRegistrado()-caminhaoDaPesagem.getTara());
-        pesagem.setData_hora_pesagem(LocalDateTime.now());
+        pesagem.setPesoLiquido(resultadoPesagem.pesoRegistrado()-caminhaoDaPesagem.getTara());
+        pesagem.setDataHoraPesagem(LocalDateTime.now());
         pesagem.setBalanca(balancaOndeFoiPesado);
         pesagem.setTipoGrao(transacaoTransporteAAtualizar.getGrao());
-        pesagem.setCusto_carga(transacaoTransporteAAtualizar.getGrao().getCustoPorTonelada() * (pesagem.getPeso_liquido()/1000));
+        pesagem.setCustoCarga(transacaoTransporteAAtualizar.getGrao().getCustoPorTonelada() * (pesagem.getPesoLiquido()/1000));
 
         pesagensRepository.save(pesagem);
 
-        transacaoTransporteAAtualizar.setData_Hora_Retorno(LocalDateTime.now());
+        transacaoTransporteAAtualizar.setDataHoraRetorno(LocalDateTime.now());
         transacaoTransporteAAtualizar.setPesagem(pesagem);
 
         return transacaoTransporteRepository.save(transacaoTransporteAAtualizar);
