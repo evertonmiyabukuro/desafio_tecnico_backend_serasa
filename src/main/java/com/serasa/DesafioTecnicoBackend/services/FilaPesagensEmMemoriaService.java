@@ -28,7 +28,32 @@ public class FilaPesagensEmMemoriaService {
         long now = System.currentTimeMillis();
 
         if(objetoPesagem.getPesagemId() == null){
-            objetoPesagem.setPesagemId(UUID.randomUUID().toString());
+            String uuidExistente = listaPesagens.entrySet()
+                    .stream()
+                    .filter(e -> {
+                        Registro registro = e.getValue();
+                        registro.lock.lock();
+                        try {
+                            // Check if any item in the deque matches plate & idBalanca
+                            return registro.deque.stream().anyMatch(p ->
+                                    Objects.equals(p.getPlate(), objetoPesagem.getPlate()) &&
+                                            Objects.equals(p.getIdBalanca(), objetoPesagem.getIdBalanca())
+                            );
+                        } finally {
+                            registro.lock.unlock();
+                        }
+                    })
+                    .map(Map.Entry::getKey)
+                    .findFirst()
+                    .orElse(null);
+
+            if (uuidExistente != null) {
+                // Reuse the existing UUID
+                objetoPesagem.setPesagemId(uuidExistente);
+            } else {
+                // Create new UUID
+                objetoPesagem.setPesagemId(UUID.randomUUID().toString());
+            }
         }
 
         Registro registroNaFila = listaPesagens.computeIfAbsent(objetoPesagem.getPesagemId(), k -> new Registro());
