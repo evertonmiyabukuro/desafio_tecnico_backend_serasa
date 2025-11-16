@@ -73,7 +73,7 @@ public class TransacaoTransporteController {
 
         ResultadoPesagemDTO resultadoPesagem = this.filaPesagensEmMemoriaService.extrairRegistroCasoEstavel(idPesagem);
         if (resultadoPesagem == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "O registro de pesagem não está válido para finalização. Ele pode ");
+             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "O registro de pesagem não está válido para finalização. A balança pode estar instável.");
         }
 
         BalancaModel balancaOndeFoiPesado =  balancaRepository.findById(resultadoPesagem.idBalanca()).orElseThrow(() -> new ResponseStatusException(HttpStatus.PRECONDITION_FAILED, "Balança não encontrada para a pesagem informada"));
