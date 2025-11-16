@@ -12,6 +12,6 @@ import lombok.Setter;
 @Table(name = "caminhao")
 public class CaminhaoModel {
     @Id
-    private String Placa;
-    private Float Tara;
+    private String placa;
+    private Float tara;
 }

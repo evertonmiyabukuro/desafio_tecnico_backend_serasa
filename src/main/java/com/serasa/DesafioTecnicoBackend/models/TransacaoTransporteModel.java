@@ -1,6 +1,5 @@
 package com.serasa.DesafioTecnicoBackEnd.models;
 
-import com.serasa.DesafioTecnicoBackEnd.models.CaminhaoModel;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,22 +13,25 @@ import java.time.LocalDateTime;
 public class TransacaoTransporteModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer Id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name="id_grao", nullable = false)
-    private TipoGraoModel Grao;
+    private TipoGraoModel grao;
 
     @ManyToOne
     @JoinColumn(name="placa_caminhao", nullable = false)
-    private CaminhaoModel Caminhao;
+    private CaminhaoModel caminhao;
 
-    private Float Volume_Comprado;
+    @Column(name = "volume_comprado")
+    private Float volumeComprado;
 
     @OneToOne
     @JoinColumn(name = "id_pesagem")
-    private PesagensModel Pesagem;
+    private PesagensModel pesagem;
 
-    private LocalDateTime Data_Hora_Saida;
-    private LocalDateTime Data_Hora_Retorno;
+    @Column(name = "data_hora_saida")
+    private LocalDateTime dataHoraSaida;
+    @Column(name = "data_hora_retorno")
+    private LocalDateTime dataHoraRetorno;
 }

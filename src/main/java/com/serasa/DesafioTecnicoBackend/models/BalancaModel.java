@@ -1,7 +1,6 @@
 package com.serasa.DesafioTecnicoBackEnd.models;
 
 import jakarta.persistence.*;
-import jdk.jfr.Name;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,12 +14,12 @@ public class BalancaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer Id;
-    @Column(name = "identificadorAutorizacao")
+    private Integer id;
+    @Column(name = "identificador_autorizacao")
     private String identificadorAutorizacao;
     @ManyToOne
     @JoinColumn(name="id_filial", nullable = false)
-    private FilialModel Filial;
+    private FilialModel filial;
 
     @PrePersist
     public void generateUUID() {

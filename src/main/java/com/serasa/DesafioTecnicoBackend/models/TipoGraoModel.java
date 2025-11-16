@@ -11,7 +11,8 @@ import lombok.Setter;
 public class TipoGraoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer Id;
-    private String Nome;
-    private Float CustoPorTonelada;
+    private Integer id;
+    private String nome;
+    @Column(name = "custo_por_tonelada")
+    private Float custoPorTonelada;
 }

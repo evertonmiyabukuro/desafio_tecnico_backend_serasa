@@ -11,8 +11,6 @@ import lombok.Setter;
 public class FilialModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer Id;
-    @Column(name = "nome")
-    private String Nome;
+    private Integer id;
+    private String nome;
 }
