@@ -5,6 +5,7 @@ import com.serasa.DesafioTecnicoBackEnd.models.dtos.*;
 import com.serasa.DesafioTecnicoBackEnd.services.RelatoriosService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,7 +20,7 @@ public class RelatoriosController {
     @Operation(summary = "Emitir um relatório de pesagem", description = "Retorna todas as pesagens encontradas para determinada filial, caminhão, tipo de grão e período (referência inicial e final) ")
     @ApiResponse(responseCode = "200", description = "Relatório emitido com sucesso")
     @PostMapping("/pesagens")
-    public @ResponseBody Iterable<PesagensModel> getRelatorioPesagens(@RequestBody RequisicaoRelatorioPesagensDTO filtros) {
+    public @ResponseBody Iterable<RelatorioPesagensDTO> getRelatorioPesagens(@Valid @RequestBody RequisicaoRelatorioPesagensDTO filtros) {
         return relatoriosService.relatorioPesagens(filtros);
     }
 

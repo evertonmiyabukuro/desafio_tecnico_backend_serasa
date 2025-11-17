@@ -3,6 +3,8 @@ package com.serasa.DesafioTecnicoBackEnd.repository;
 import com.serasa.DesafioTecnicoBackEnd.models.PesagensModel;
 import com.serasa.DesafioTecnicoBackEnd.models.dtos.RelatorioCustosDTO;
 import com.serasa.DesafioTecnicoBackEnd.models.dtos.RelatorioLucrosPossiveisDTO;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -10,7 +12,8 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface PesagensRepository extends CrudRepository<com.serasa.DesafioTecnicoBackEnd.models.PesagensModel, Integer> {
+public interface PesagensRepository extends JpaRepository<PesagensModel, Integer>,
+        JpaSpecificationExecutor<PesagensModel> {
     @Query(value = """
             SELECT b.id_filial as filial, p.placa, p.id_tipo_grao as tipo_grao, SUM(custo_carga) AS custoTotal 
             FROM pesagens p
@@ -23,28 +26,6 @@ public interface PesagensRepository extends CrudRepository<com.serasa.DesafioTec
             nativeQuery = true
     )
     List<RelatorioCustosDTO> queryRelatorioCustosDeCompra(
-            @Param("idFilial") Integer idFilial,
-            @Param("placa") String placa,
-            @Param("idTipoGrao") Integer idTipoGrao,
-            @Param("dataInicial") LocalDateTime dataInicial,
-            @Param("dataFinal") LocalDateTime dataFinal
-    );
-
-    @Query(value = """
-        SELECT p.*
-        FROM pesagens p
-        INNER JOIN balanca b 
-            ON p.id_balanca = b.id and (b.id_filial = :idFilial)
-        WHERE 
-            (p.placa = :placa)
-        AND 
-            (p.id_tipo_grao = :idTipoGrao)
-        AND
-            (p.data_hora_pesagem BETWEEN :dataInicial AND :dataFinal)
-        """,
-            nativeQuery = true
-    )
-    List<PesagensModel> queryRelatorioPesagens(
             @Param("idFilial") Integer idFilial,
             @Param("placa") String placa,
             @Param("idTipoGrao") Integer idTipoGrao,

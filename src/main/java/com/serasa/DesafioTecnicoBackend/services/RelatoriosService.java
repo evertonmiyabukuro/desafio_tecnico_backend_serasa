@@ -3,11 +3,14 @@ package com.serasa.DesafioTecnicoBackEnd.services;
 import com.serasa.DesafioTecnicoBackEnd.models.*;
 import com.serasa.DesafioTecnicoBackEnd.models.dtos.*;
 import com.serasa.DesafioTecnicoBackEnd.repository.PesagensRepository;
+import com.serasa.DesafioTecnicoBackEnd.repository.specifications.PesagensSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -16,8 +19,8 @@ public class RelatoriosService {
     private PesagensRepository pesagensRepository;
 
 
-    public List<PesagensModel> relatorioPesagens(RequisicaoRelatorioPesagensDTO filtros) {
-        List<PesagensModel> pesagens = pesagensRepository.queryRelatorioPesagens(
+    public List<RelatorioPesagensDTO> relatorioPesagens(RequisicaoRelatorioPesagensDTO filtros) {
+        Specification<PesagensModel> spec = PesagensSpecification.filter(
                 filtros.getIdFilial(),
                 filtros.getPlaca(),
                 filtros.getIdTipoGrao(),
@@ -25,7 +28,45 @@ public class RelatoriosService {
                 filtros.getPeriodoFinal()
         );
 
-        return pesagens.stream().toList();
+        List<PesagensModel> pesagens = pesagensRepository.findAll(spec);
+
+        return pesagens.stream()
+                .map(p -> new RelatorioPesagensDTO() {
+                    @Override
+                    public String getFilial() {
+                        return p.getBalanca().getFilial().getNome();
+                    }
+
+                    @Override
+                    public String getPlaca() {
+                        return p.getCaminhao().getPlaca();
+                    }
+
+                    @Override
+                    public String getTipoGrao() {
+                        return p.getTipoGrao().getNome();
+                    }
+
+                    @Override
+                    public Float getPesoBrutoEstabilizado() {
+                        return p.getPesoBrutoEstabilizado();
+                    }
+
+                    @Override
+                    public Float getTara() {
+                        return p.getTara();
+                    }
+
+                    @Override
+                    public Float getPesoLiquido() {
+                        return p.getPesoLiquido();
+                    }
+
+                    @Override
+                    public Float getCustoCarga() {
+                        return p.getCustoCarga();
+                    }
+                }).collect(Collectors.toList());
     }
 
     public List<RelatorioCustosDTO> relatorioCustosCompra(RequisicaoRelatorioCustosDTO filtros) {
